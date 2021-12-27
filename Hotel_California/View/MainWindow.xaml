@@ -1,0 +1,38 @@
+﻿<Window x:Class="Hotel_California.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hotel_California"
+        mc:Ignorable="d" Width="960" Height="550" WindowStartupLocation="CenterScreen" Title="Hotel California" Icon="hotelicon.png" FontFamily="Gabriola" Topmost="True">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="15*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="#FFBAEDF7">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+
+                <Button BorderBrush="{x:Null}" Margin="0 0 0 0" Content="ЗАБРОНИРОВАТЬ НОМЕР"  Background="#FFBAEDF7" Foreground="White" x:Name="btnBooking" Command="{Binding BookingCommand}" FontFamily="Californian FB" FontWeight="Medium" FontSize="18" Click="btnBooking_Click"/>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Button BorderBrush="{x:Null}" Content="ОТЧЁТ О ВЫРУЧКЕ" Background="#FFBAEDF7" Foreground="White"  x:Name="btnIncome" Command="{Binding IncomeCommand}" FontFamily="Californian FB" FontSize="18" FontWeight="Medium"/>
+            </Grid>
+
+        </Grid>
+
+        <Grid Grid.Row="1" Name="stk">
+            <Image Source="main.jpg" HorizontalAlignment="Center" VerticalAlignment="Top" />
+            <Label Content="ДОБРО ПОЖАЛОВАТЬ В CALIFORNIA HOTEL" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 40" FontFamily="Tahoma" FontSize="40" FontWeight="Medium" Foreground="#FF2F6E7D"/>
+        </Grid>
+
+    </Grid>
+
+</Window>

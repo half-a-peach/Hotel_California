@@ -1,0 +1,98 @@
+﻿<UserControl x:Class="Hotel_California.View.BookingWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Hotel_California.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="953">
+    <UserControl.Resources>
+        <Style x:Key="bookBtn" TargetType="{x:Type Button}">
+            <Setter Property="Command" Value="{Binding DataContext.CreateBookingCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}}"/>
+        </Style>
+        <Button x:Key="luxButton" x:Shared="False" Style="{StaticResource bookBtn}" Foreground="White" FontSize="23" FontWeight="Medium" FontFamily="Tahoma" VerticalAlignment="Top" HorizontalAlignment= "Center" Height="40" Width="400" Background="#FFB7E9F3">
+            <TextBlock Text="ЛЮКС"/>
+        </Button>
+
+        <Button x:Key="standardButton" x:Shared="False" Style="{StaticResource bookBtn}" FontSize="23" FontWeight="Medium" Foreground="White" FontFamily="Tahoma" VerticalAlignment="Top" HorizontalAlignment= "Center" Height="40" Width="400" Background="#FFB5EAD5">
+            <TextBlock Text="СТАНДАРТ"/>
+        </Button>
+
+        <Button x:Key="economyButton" x:Shared="False" FontSize="23" Style="{StaticResource bookBtn}" FontWeight="Medium" Foreground="White" FontFamily="Tahoma" VerticalAlignment="Top" HorizontalAlignment= "Center" Height="40" Width="400" Background="#FFE0E0C0">
+            <TextBlock Text="ЭКОНОМ"/>
+        </Button>
+
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+
+        <ScrollViewer Grid.Column="0" Background="White">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="10*" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content= "ДОСТУПНЫЕ НОМЕРА" Margin="0 10 0 10" HorizontalAlignment= "Center" VerticalAlignment="Top" FontFamily= "Tahoma" FontSize= "20" FontWeight= "Medium" Foreground= "#FF2F6E7D" />
+                <Grid Grid.Row="1" Name= "listing"/>
+                </Grid>
+        </ScrollViewer>
+
+        <StackPanel Grid.Column="1" Background="#FFDEF9FF">
+            <Label Content="НАЙТИ НОМЕР" HorizontalAlignment="Center" Margin="0 40 0 0" FontFamily="Tahoma" FontSize="30" FontWeight="Medium" Foreground="#FF2F6E7D"/>
+            <StackPanel HorizontalAlignment="Center" Margin="0 40 0 0" >
+                <Border Visibility="Visible" BorderBrush="White" CornerRadius="20" BorderThickness="5" Height="330" Width="350">
+                    <Grid>
+
+                        <Label Content="Количество человек:" HorizontalAlignment="Center" Margin="0 0 90 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
+                        <xctk:IntegerUpDown Name="peopleAmountUpDown" Margin="90 0 0 230" Value="1" Width="100" Height="25" Minimum="1" Maximum="5" FontSize="16" FontFamily="Tahoma"/>
+
+                        <Label Content="Диапазон стоимости:" HorizontalAlignment="Center" Margin="0 60 90 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
+                        <Label Content="от:" HorizontalAlignment="Left" Margin="10 90 0 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
+                        <Label Content="до:" HorizontalAlignment="Center" Margin="40 90 0 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
+                        <xctk:IntegerUpDown Name="minPriceUpDown" Margin="0 0 150 110" Value="1400" Width="100" Height="25" Minimum="1400" Maximum="2800" FontFamily="Tahoma" FontSize="16"/>
+                        <xctk:IntegerUpDown Name="maxPriceUpDown" Margin="180 0 0 110" Value="2800" Width="100" Height="25" Minimum="1400" Maximum="2800" FontFamily="Tahoma" FontSize="16"/>
+
+                        <Label Content="Даты пребывания:" HorizontalAlignment="Center" Margin="0 125 105 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
+                        <Label Content="с:" HorizontalAlignment="Left" Margin="15 155 0 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
+                        <Label Content="по:" HorizontalAlignment="Center" Margin="40 155 0 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
+                        <DatePicker Name="inDate" Margin="0 20 145 0" Height="25" Width="110" SelectedDate="12/25/2021" FontFamily="Tahoma" FontSize="14"/>
+                        <DatePicker Name="outDate" Margin="185 20 0 0" Height="25" Width="110" SelectedDate="01/10/2022" FontFamily="Tahoma" FontSize="14"/>
+
+                        <Label Content="Тип комнаты:" HorizontalAlignment="Center" Margin="0 200 140 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
+                        <ComboBox Name="roomTypeComboBox" Margin="0 165 0 0" Height="25" Width="120" HorizontalAlignment="Center" SelectionChanged="roomTypeComboBox_SelectionChanged" FontFamily="Tahoma" FontSize="14">
+                            <ComboBoxItem Name="All" IsSelected="True">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock>Все</TextBlock>
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem Name="Economy">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock>Стандарт</TextBlock>
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem Name="Standard">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock>Эконом</TextBlock>
+                                </StackPanel>
+                            </ComboBoxItem>
+                            <ComboBoxItem Name="Lux">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock>Люкс</TextBlock>
+                                </StackPanel>
+                            </ComboBoxItem>
+                        </ComboBox>
+
+                        <Button BorderBrush="{x:Null}" Content="ПОИСК"  Background="#FFBAEDF7" Foreground="White" Margin="0 260 0 0" x:Name="btnSearch" Command="{Binding SearchingCommand}" Height="35" Width="100" FontFamily="Tahoma" FontWeight="Medium" FontSize="20"/>
+
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>
