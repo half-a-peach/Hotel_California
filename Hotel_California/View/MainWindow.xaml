@@ -15,15 +15,24 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
-
-                <Button BorderBrush="{x:Null}" Margin="0 0 0 0" Content="ЗАБРОНИРОВАТЬ НОМЕР"  Background="#FFBAEDF7" Foreground="White" x:Name="btnBooking" Command="{Binding BookingCommand}" FontFamily="Californian FB" FontWeight="Medium" FontSize="18" Click="btnBooking_Click"/>
+                <Button BorderBrush="{x:Null}" Margin="0 0 0 0" Content="ЗАБРОНИРОВАТЬ НОМЕР"  Background="#FFBAEDF7" Foreground="White" x:Name="btnBooking" Command="{Binding BookingCommand}" FontFamily="Tahoma" FontWeight="Medium" FontSize="18"/>
             </Grid>
 
             <Grid Grid.Column="1">
-                <Button BorderBrush="{x:Null}" Content="ОТЧЁТ О ВЫРУЧКЕ" Background="#FFBAEDF7" Foreground="White"  x:Name="btnIncome" Command="{Binding IncomeCommand}" FontFamily="Californian FB" FontSize="18" FontWeight="Medium"/>
+                <Button BorderBrush="{x:Null}" Content="ЗАСЕЛИТЬ" Background="#FFBAEDF7" Foreground="White"  x:Name="btnCheckIn" Command="{Binding IncomeCommand}" FontFamily="Tahoma" FontSize="18" FontWeight="Medium"/>
+            </Grid>
+
+            <Grid Grid.Column="2">
+                <Button BorderBrush="{x:Null}" Content="УСЛУГИ" Background="#FFBAEDF7" Foreground="White"  x:Name="btnServices" Command="{Binding IncomeCommand}" FontFamily="Tahoma" FontSize="18" FontWeight="Medium"/>
+            </Grid>
+
+            <Grid Grid.Column="3">
+                <Button BorderBrush="{x:Null}" Content="ОТЧЁТ О ВЫРУЧКЕ" Background="#FFBAEDF7" Foreground="White"  x:Name="btnIncome" Command="{Binding IncomeCommand}" FontFamily="Tahoma" FontSize="18" FontWeight="Medium"/>
             </Grid>
 
         </Grid>

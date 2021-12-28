@@ -64,6 +64,7 @@ namespace Hotel_California.ViewModel
                       {
                           first = true;
                           RoomList();     //вывод списка комнат
+
                       }
                       catch (Exception ex)
                       {
@@ -113,7 +114,7 @@ namespace Hotel_California.ViewModel
                           reserve.capacityLb.Content = "КОЛИЧЕСТВО МЕСТ: " + ((obj as Button).DataContext as room).capacity;
                           reserve.inLb.Content = booking.inDate.SelectedDate.Value;
                           reserve.outLb.Content = booking.outDate.SelectedDate.Value;
-
+                          
                           MainWindow.stk.Children.Add(reserve);
 
                       }
@@ -154,9 +155,11 @@ namespace Hotel_California.ViewModel
 
                           newReservation = new reservation();
                           newReservation.client = dbo.GetClient(client).id;
+                          newReservation.client1 = dbo.GetClient(client);
                           newReservation.check_in_date = booking.inDate.SelectedDate.Value;
                           newReservation.check_out_date = booking.outDate.SelectedDate.Value;
                           newReservation.room = dbo.GetRoom(roomnum).id;
+                          newReservation.room1 = dbo.GetRoom(roomnum);
                           newReservation.status = 1;
                           newReservation.paid = 0;
                           newReservation.amount_of_guests = (int)booking.peopleAmountUpDown.Value;
@@ -164,8 +167,11 @@ namespace Hotel_California.ViewModel
 
                           List<string> services = new List<string>();
 
-                          //заполняем комбобокс с услугаим
+                          //заполняем комбобокс с услугами
                           services = dbo.GetAllServices();
+
+                          services = services.Select(value => value + " - " + dbo.GetService(value).price + "₽").ToList();
+
                           serv.serviceComboBox.Items.Clear();
                           serv.serviceComboBox.ItemsSource = services;
                           serv.serviceComboBox.SelectedItem = services.First();
@@ -218,7 +224,26 @@ namespace Hotel_California.ViewModel
                   {
                       try
                       {
-                          MessageBox.Show("Бронирование успешно создано!");
+                          string message = "Бронирование завершено успешно!\nПараметры брони:\nКомната: " +
+                          newReservation.room1.roomType.category + " №" + newReservation.room1.room_number +
+                          "\nСтоимость проживания: " + newReservation.room1.price * (newReservation.check_out_date
+                          .Subtract(newReservation.check_in_date).Days) + "₽" + "\nКоличество гостей: " +
+                          newReservation.amount_of_guests + "\nДаты пребывания: с " + newReservation.check_in_date
+                          .ToShortDateString() + " по " + newReservation.check_out_date.ToShortDateString() + 
+                          "\nУслуги: ";
+
+                          string servStr = "";
+
+                          foreach (service_string item in newReservation.service_string)
+                          {
+                              servStr += item.service1.name + " " + item.cost + "₽\n";
+                          }
+
+                          message += servStr;
+
+                          message += "Итоговая сумма: " + newReservation.total_price + "₽";
+
+                          MessageBox.Show(message);
 
                           //возвращаемся назад на страницу со списком комнат
                           MainWindow.stk.Children.Clear();
@@ -342,6 +367,7 @@ namespace Hotel_California.ViewModel
                 }
 
                 roomButton.Margin = new Thickness(0, 60 * marg + 10, 0, 20);  //расстояние между кнопками
+                roomButton.DataContext = room;
                 marg++;
                 booking.listing.Children.Add(roomButton);
             }
@@ -361,7 +387,28 @@ namespace Hotel_California.ViewModel
                               (serv.serviceComboBox.SelectedIndex), (int)serv.serviceAmountUpDown.Value));
                           newReservation.total_price += newReservation.service_string.Last().cost;                          
                           dbo.CreateServiceString(newReservation.service_string.Last());
-                          MessageBox.Show("Бронирование успешно создано!");
+
+                          string message = "Бронирование завершено успешно!\nПараметры брони:\nКомната: " +
+                          newReservation.room1.roomType.category + " №" + newReservation.room1.room_number +
+                          "\nСтоимость проживания: " + newReservation.room1.price * (newReservation.check_out_date
+                          .Subtract(newReservation.check_in_date).Days) + "₽" + "\nКоличество гостей: " +
+                          newReservation.amount_of_guests + "\nДаты пребывания: с " + newReservation.check_in_date
+                          .ToShortDateString() + " по " + newReservation.check_out_date.ToShortDateString() +
+                          "\nУслуги: ";
+
+                          string servStr = "";
+
+                          foreach (service_string item in newReservation.service_string)
+                          {
+                              servStr += item.service1.name + " " + item.cost + "₽\n";
+                          }
+
+                          message += servStr;
+
+                          message += "Итоговая сумма: " + newReservation.total_price + "₽";
+
+                          MessageBox.Show(message);
+
                           MainWindow.stk.Children.Clear();
                           RoomList();
                           MainWindow.stk.Children.Add(booking);

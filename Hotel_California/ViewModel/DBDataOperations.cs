@@ -61,7 +61,11 @@ namespace Hotel_California.ViewModel
         public service GetService(int number)
         {
             return db.service.Where(serv => serv.id == (number + 1)).FirstOrDefault();
+        }
 
+        public service GetService(string name)
+        {
+            return db.service.Where(serv => serv.name == name).FirstOrDefault();
         }
 
         public List<room> GetRooms(int minimumPrice, int maximumPrice, string type, int capacity, DateTime checkin, DateTime checkout)
@@ -107,8 +111,17 @@ namespace Hotel_California.ViewModel
     
         public client GetClient(client client)
         {
-            client cl = (client)db.client.Where(c => c.full_name == client.full_name && c.birthdate == client.birthdate &&
+            client cl = db.client.Where(c => c.full_name == client.full_name && c.birthdate == client.birthdate &&
             c.phone_number == client.phone_number && c.client_document == client.client_document).FirstOrDefault();
+
+            if (cl != null)
+                return cl;
+            else return null;
+        }
+
+        public reservation GetReservation(int id)
+        {
+            reservation cl = db.reservation.Where(c => c.id == id).FirstOrDefault();
 
             if (cl != null)
                 return cl;
@@ -182,8 +195,8 @@ namespace Hotel_California.ViewModel
             {
                 item.RoomCost = item.RoomCost * ((item.CheckOutDate.Subtract(item.CheckInDate)).Days);
                 item.ServiceCost = item.TotalCost - item.RoomCost;
-                item.CheckInDate = item.CheckInDate.Date;
-                item.CheckOutDate = item.CheckOutDate.Date;
+                item.CheckInDate1 = item.CheckInDate.ToShortDateString();
+                item.CheckOutDate1 = item.CheckOutDate.ToShortDateString();
             }
             return pre;
 

@@ -83,6 +83,9 @@
     <Compile Include="ViewModel\AppViewModel.cs" />
     <Compile Include="ViewModel\DBDataOperations.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
+    <Compile Include="View\CheckInWindow.xaml.cs">
+      <DependentUpon>CheckInWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ReservationWindow.xaml.cs">
       <DependentUpon>ReservationWindow.xaml</DependentUpon>
     </Compile>
@@ -93,6 +96,10 @@
       <DependentUpon>ServiceWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="View\BookingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CheckInWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -13,5 +13,7 @@ namespace DAL
         public float RoomCost { get; set; }
         public float ServiceCost { get; set; }
         public float TotalCost { get; set; }
+        public string CheckInDate1 { get; set; }
+        public string CheckOutDate1 { get; set; }
     }
 }

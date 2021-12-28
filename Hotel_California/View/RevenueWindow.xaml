@@ -23,10 +23,10 @@
                 <Grid Grid.Row="1">
                     <DataGrid Background="White" x:Name="revenueGrd" AutoGenerateColumns="false" ItemsSource="{Binding report}" FontFamily="Tahoma" FontSize="14">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Заезд" Binding="{Binding Path=CheckInDate}" Width="145" />
-                            <DataGridTextColumn Header="Выезд" Binding="{Binding Path=CheckOutDate}" Width="145" />
-                            <DataGridTextColumn Header="Оплата проживания" Binding="{Binding Path=RoomCost}" Width="150" />
-                            <DataGridTextColumn Header="Оплата услуг" Binding="{Binding Path=ServiceCost}" Width="100" />
+                            <DataGridTextColumn Header="Заезд" Binding="{Binding Path=CheckInDate1}" Width="135" />
+                            <DataGridTextColumn Header="Выезд" Binding="{Binding Path=CheckOutDate1}" Width="135" />
+                            <DataGridTextColumn Header="Оплата проживания" Binding="{Binding Path=RoomCost}" Width="160" />
+                            <DataGridTextColumn Header="Оплата услуг" Binding="{Binding Path=ServiceCost}" Width="103" />
                             <DataGridTextColumn Header="Итоговый платёж" Binding="{Binding Path=TotalCost}" Width="130" />
                         </DataGrid.Columns>
                     </DataGrid>

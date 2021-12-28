@@ -58,7 +58,7 @@
                         <xctk:IntegerUpDown Name="minPriceUpDown" Margin="0 0 150 110" Value="1400" Width="100" Height="25" Minimum="1400" Maximum="2800" FontFamily="Tahoma" FontSize="16"/>
                         <xctk:IntegerUpDown Name="maxPriceUpDown" Margin="180 0 0 110" Value="2800" Width="100" Height="25" Minimum="1400" Maximum="2800" FontFamily="Tahoma" FontSize="16"/>
 
-                        <Label Content="Даты пребывания:" HorizontalAlignment="Center" Margin="0 125 105 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
+                        <Label Content="Даты пребывания:" HorizontalAlignment="Center" Margin="40,125,160.8,0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
                         <Label Content="с:" HorizontalAlignment="Left" Margin="15 155 0 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
                         <Label Content="по:" HorizontalAlignment="Center" Margin="40 155 0 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
                         <DatePicker Name="inDate" Margin="0 20 145 0" Height="25" Width="110" SelectedDate="12/25/2021" FontFamily="Tahoma" FontSize="14"/>

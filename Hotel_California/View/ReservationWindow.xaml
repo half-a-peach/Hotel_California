@@ -58,7 +58,7 @@
                         <Label Content="Номер телефона:" HorizontalAlignment="Left" Margin="30 125 105 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
                         <TextBox Name="phoneNumberTxb" Height="25" Width="230" HorizontalAlignment="Center" Margin="50 20 0 0" FontFamily="Tahoma" FontSize="16"/>
 
-                        <Label Content="Документ (пасспорт):" HorizontalAlignment="Left" Margin="30 200 140 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
+                        <Label Content="Документ (паспорт):" HorizontalAlignment="Left" Margin="30 200 140 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
                         <TextBox Name="passportTxb" Height="25" Width="300" HorizontalAlignment="Center" Margin="20 170 0 0" FontFamily="Tahoma" FontSize="16"/>
 
 
