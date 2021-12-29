@@ -101,13 +101,13 @@ namespace Hotel_California.ViewModel
             }
         }
 
-        /*public void UpdateReservation(reservation res)
+        public void UpdateReservation(reservation res)
         {
             reservation r = db.reservation.Find(res.id);
             r.total_price = res.total_price;
             r.paid = res.paid;
             Save();
-        }*/
+        }
     
         public client GetClient(client client)
         {
@@ -121,10 +121,35 @@ namespace Hotel_California.ViewModel
 
         public reservation GetReservation(int id)
         {
-            reservation cl = db.reservation.Where(c => c.id == id).FirstOrDefault();
+            reservation r = db.reservation.Where(re => re.id == id).FirstOrDefault();
 
-            if (cl != null)
-                return cl;
+            if (r != null)
+                return r;
+            else return null;
+        }
+
+        public reservation GetReservation(DateTime inday, DateTime outday, int roomnum)
+        {
+            reservation r = db.reservation.Where(re => re.room1.room_number == roomnum && re.check_in_date == inday 
+            && re.check_out_date == outday).FirstOrDefault();
+
+            if (r != null)
+                return r;
+            else return null;
+        }
+
+        public status GetStatus(int id)
+        {
+            return db.status.Where(s => s.id == id).FirstOrDefault();
+        }
+
+        public reservation GetReservation(string name, DateTime bday, DateTime inday, DateTime outday)
+        {
+            reservation res = db.reservation.Where(r => r.client1.full_name == name && r.client1.birthdate == bday &&
+            r.check_in_date == inday && r.check_out_date == outday).FirstOrDefault();
+
+            if (res != null)
+                return res;
             else return null;
         }
 

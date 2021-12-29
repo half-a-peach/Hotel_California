@@ -24,7 +24,7 @@
             </Grid>
 
             <Grid Grid.Column="1">
-                <Button BorderBrush="{x:Null}" Content="ЗАСЕЛИТЬ" Background="#FFBAEDF7" Foreground="White"  x:Name="btnCheckIn" Command="{Binding IncomeCommand}" FontFamily="Tahoma" FontSize="18" FontWeight="Medium"/>
+                <Button BorderBrush="{x:Null}" Content="ЗАСЕЛИТЬ" Background="#FFBAEDF7" Foreground="White"  x:Name="btnCheckIn" Command="{Binding CheckInCommand}" FontFamily="Tahoma" FontSize="18" FontWeight="Medium"/>
             </Grid>
 
             <Grid Grid.Column="2">

@@ -65,7 +65,7 @@
                         <DatePicker Name="outDate" Margin="185 20 0 0" Height="25" Width="110" SelectedDate="01/10/2022" FontFamily="Tahoma" FontSize="14"/>
 
                         <Label Content="Тип комнаты:" HorizontalAlignment="Center" Margin="0 200 140 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
-                        <ComboBox Name="roomTypeComboBox" Margin="0 165 0 0" Height="25" Width="120" HorizontalAlignment="Center" SelectionChanged="roomTypeComboBox_SelectionChanged" FontFamily="Tahoma" FontSize="14">
+                        <ComboBox Name="roomTypeComboBox" Margin="0 165 0 0" Height="25" Width="120" HorizontalAlignment="Center" FontFamily="Tahoma" FontSize="14">
                             <ComboBoxItem Name="All" IsSelected="True">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock>Все</TextBlock>

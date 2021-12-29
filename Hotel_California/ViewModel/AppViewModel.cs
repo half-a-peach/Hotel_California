@@ -87,35 +87,43 @@ namespace Hotel_California.ViewModel
                   {
                       try
                       {
-                          reserve = new ReservationWindow(this);
-
-                          MainWindow.stk.Children.Clear();
-                          
-                          type = ((obj as Button).DataContext as room).room_type;
-                          
-                          switch (type)
+                          if (dbo.GetReservation(booking.inDate.SelectedDate.Value, booking.outDate.SelectedDate.Value,
+                              ((obj as Button).DataContext as room).room_number) != null)
                           {
-                              case 1:
-                                  reserve.typeLb.Content = "СТАНДАРТ";
-                                  break;
-                              case 2:
-                                  reserve.typeLb.Content = "ЭКОНОМ";
-                                  break;
-                              case 3:
-                                  reserve.typeLb.Content = "ЛЮКС";
-                                  break;
-                          }
+                              reserve = new ReservationWindow(this);
 
-                          //выводим информацию о комнате, которую собираются бронировать:
-                          reserve.numberLb.Content = "№" + ((obj as Button).DataContext as room).room_number;
-                          roomnum = ((obj as Button).DataContext as room).room_number;
-                          reserve.costLb.Content = "ОБЩАЯ СТОИМОСТЬ: " + ((obj as Button).DataContext as room).price 
-                          * (booking.outDate.SelectedDate.Value.Subtract(booking.inDate.SelectedDate.Value).Days) + "₽";
-                          reserve.capacityLb.Content = "КОЛИЧЕСТВО МЕСТ: " + ((obj as Button).DataContext as room).capacity;
-                          reserve.inLb.Content = booking.inDate.SelectedDate.Value;
-                          reserve.outLb.Content = booking.outDate.SelectedDate.Value;
-                          
-                          MainWindow.stk.Children.Add(reserve);
+                              MainWindow.stk.Children.Clear();
+
+                              type = ((obj as Button).DataContext as room).room_type;
+
+                              switch (type)
+                              {
+                                  case 1:
+                                      reserve.typeLb.Content = "СТАНДАРТ";
+                                      break;
+                                  case 2:
+                                      reserve.typeLb.Content = "ЭКОНОМ";
+                                      break;
+                                  case 3:
+                                      reserve.typeLb.Content = "ЛЮКС";
+                                      break;
+                              }
+
+                              //выводим информацию о комнате, которую собираются бронировать:
+                              reserve.numberLb.Content = "№" + ((obj as Button).DataContext as room).room_number;
+                              roomnum = ((obj as Button).DataContext as room).room_number;
+                              reserve.costLb.Content = "ОБЩАЯ СТОИМОСТЬ: " + ((obj as Button).DataContext as room).price
+                              * (booking.outDate.SelectedDate.Value.Subtract(booking.inDate.SelectedDate.Value).Days) + "₽";
+                              reserve.capacityLb.Content = "КОЛИЧЕСТВО МЕСТ: " + ((obj as Button).DataContext as room).capacity;
+                              reserve.inLb.Content = booking.inDate.SelectedDate.Value;
+                              reserve.outLb.Content = booking.outDate.SelectedDate.Value;
+
+                              MainWindow.stk.Children.Add(reserve);
+                          }
+                          else
+                          {
+                              MessageBox.Show("Эта комната уже занята на выбранные даты!");
+                          }
 
                       }
                       catch (Exception ex)
@@ -139,46 +147,53 @@ namespace Hotel_California.ViewModel
                   {
                       try
                       {
-                          serv = new ServiceWindow(this);
-                          reserve.bookstk.Children.Clear();
-
-                          client = new client();
-                          client.full_name = reserve.fullNameTxb.Text;
-                          client.birthdate = reserve.birthDate.SelectedDate.Value;
-                          client.phone_number = reserve.phoneNumberTxb.Text;
-                          client.client_document = reserve.passportTxb.Text;
-
-                          if (dbo.GetClient(client) == null)    //если этот клиент уже есть в базе
+                          if (reserve.peopleAmountUpDown.Value > newReservation.room1.capacity)
                           {
-                              dbo.CreateClient(client);
+                              serv = new ServiceWindow(this);
+                              reserve.bookstk.Children.Clear();
+
+                              client = new client();
+                              client.full_name = reserve.fullNameTxb.Text;
+                              client.birthdate = reserve.birthDate.SelectedDate.Value;
+                              client.phone_number = reserve.phoneNumberTxb.Text;
+                              client.client_document = reserve.passportTxb.Text;
+
+                              if (dbo.GetClient(client) == null)    //если этот клиент уже есть в базе
+                              {
+                                  dbo.CreateClient(client);
+                              }
+
+                              newReservation = new reservation();
+                              newReservation.client = dbo.GetClient(client).id;
+                              newReservation.client1 = dbo.GetClient(client);
+                              newReservation.check_in_date = booking.inDate.SelectedDate.Value;
+                              newReservation.check_out_date = booking.outDate.SelectedDate.Value;
+                              newReservation.room = dbo.GetRoom(roomnum).id;
+                              newReservation.room1 = dbo.GetRoom(roomnum);
+                              newReservation.status = 1;
+                              newReservation.paid = 0;
+                              newReservation.amount_of_guests = (int)reserve.peopleAmountUpDown.Value;
+                              newReservation.total_price = dbo.GetRoomId(newReservation.room).price * (booking.outDate.SelectedDate.Value.Subtract(booking.inDate.SelectedDate.Value).Days);
+
+                              List<string> services = new List<string>();
+
+                              //заполняем комбобокс с услугами
+                              services = dbo.GetAllServices();
+
+                              services = services.Select(value => value + " - " + dbo.GetService(value).price + "₽").ToList();
+
+                              serv.serviceComboBox.Items.Clear();
+                              serv.serviceComboBox.ItemsSource = services;
+                              serv.serviceComboBox.SelectedItem = services.First();
+
+                              dbo.CreateReservation(newReservation);
+
+                              reserve.bookstk.Children.Add(serv);
                           }
-
-                          newReservation = new reservation();
-                          newReservation.client = dbo.GetClient(client).id;
-                          newReservation.client1 = dbo.GetClient(client);
-                          newReservation.check_in_date = booking.inDate.SelectedDate.Value;
-                          newReservation.check_out_date = booking.outDate.SelectedDate.Value;
-                          newReservation.room = dbo.GetRoom(roomnum).id;
-                          newReservation.room1 = dbo.GetRoom(roomnum);
-                          newReservation.status = 1;
-                          newReservation.paid = 0;
-                          newReservation.amount_of_guests = (int)booking.peopleAmountUpDown.Value;
-                          newReservation.total_price = dbo.GetRoomId(newReservation.room).price * (booking.outDate.SelectedDate.Value.Subtract(booking.inDate.SelectedDate.Value).Days);
-
-                          List<string> services = new List<string>();
-
-                          //заполняем комбобокс с услугами
-                          services = dbo.GetAllServices();
-
-                          services = services.Select(value => value + " - " + dbo.GetService(value).price + "₽").ToList();
-
-                          serv.serviceComboBox.Items.Clear();
-                          serv.serviceComboBox.ItemsSource = services;
-                          serv.serviceComboBox.SelectedItem = services.First();
-                          
-                          dbo.CreateReservation(newReservation);
-
-                          reserve.bookstk.Children.Add(serv);
+                          else
+                          {
+                              MessageBox.Show("Слишком большое количество человек! Выберите другую комнату!");
+                          }
 
                       }
                       catch (Exception ex)
@@ -224,13 +239,13 @@ namespace Hotel_California.ViewModel
                   {
                       try
                       {
-                          string message = "Бронирование завершено успешно!\nПараметры брони:\nКомната: " +
-                          newReservation.room1.roomType.category + " №" + newReservation.room1.room_number +
-                          "\nСтоимость проживания: " + newReservation.room1.price * (newReservation.check_out_date
-                          .Subtract(newReservation.check_in_date).Days) + "₽" + "\nКоличество гостей: " +
-                          newReservation.amount_of_guests + "\nДаты пребывания: с " + newReservation.check_in_date
-                          .ToShortDateString() + " по " + newReservation.check_out_date.ToShortDateString() + 
-                          "\nУслуги: ";
+                          string message = "Бронирование завершено успешно!\nПараметры брони:\nЗаказчик: " +
+                          newReservation.client1.full_name + "\nКомната: " + newReservation.room1.roomType.category +
+                          " №" + newReservation.room1.room_number + "\nСтоимость проживания: " + newReservation.room1
+                          .price * (newReservation.check_out_date.Subtract(newReservation.check_in_date).Days) + "₽"
+                          + "\nКоличество гостей: " + newReservation.amount_of_guests + "\nДаты пребывания: с " +
+                          newReservation.check_in_date.ToShortDateString() + " по " + newReservation.check_out_date
+                          .ToShortDateString() + "\nУслуги: ";
 
                           string servStr = "";
 
@@ -388,13 +403,13 @@ namespace Hotel_California.ViewModel
                           newReservation.total_price += newReservation.service_string.Last().cost;                          
                           dbo.CreateServiceString(newReservation.service_string.Last());
 
-                          string message = "Бронирование завершено успешно!\nПараметры брони:\nКомната: " +
-                          newReservation.room1.roomType.category + " №" + newReservation.room1.room_number +
-                          "\nСтоимость проживания: " + newReservation.room1.price * (newReservation.check_out_date
-                          .Subtract(newReservation.check_in_date).Days) + "₽" + "\nКоличество гостей: " +
-                          newReservation.amount_of_guests + "\nДаты пребывания: с " + newReservation.check_in_date
-                          .ToShortDateString() + " по " + newReservation.check_out_date.ToShortDateString() +
-                          "\nУслуги: ";
+                          string message = "Бронирование завершено успешно!\nПараметры брони:\nЗаказчик: " + 
+                          newReservation.client1.full_name + "\nКомната: " + newReservation.room1.roomType.category + 
+                          " №" + newReservation.room1.room_number + "\nСтоимость проживания: " + newReservation.room1
+                          .price * (newReservation.check_out_date.Subtract(newReservation.check_in_date).Days) + "₽" 
+                          + "\nКоличество гостей: " + newReservation.amount_of_guests + "\nДаты пребывания: с " + 
+                          newReservation.check_in_date.ToShortDateString() + " по " + newReservation.check_out_date
+                          .ToShortDateString() + "\nУслуги: ";
 
                           string servStr = "";
 
@@ -460,6 +475,158 @@ namespace Hotel_California.ViewModel
                           //revenueRep.revenueGrd.ColumnWidth = DataGridLength.SizeToHeader;
                           //revenueRep.revenueGrd.ColumnWidth = DataGridLength.SizeToCells;
                           revenueRep.revenueGrd.ItemsSource = report;
+                      }
+                      catch (Exception ex)
+                      {
+                          MessageBox.Show(ex.Message);
+                      }
+                  }));
+            }
+        }
+
+        private CheckInWindow checkIn;
+        private RelayCommand checkInCommand;
+        public RelayCommand CheckInCommand      //открыть страницу о заселении
+        {
+            get
+            {
+                return checkInCommand ??
+                  (checkInCommand = new RelayCommand(obj =>
+                  {
+                      try
+                      {
+                          checkIn = new CheckInWindow(this);
+
+                          MainWindow.stk.Children.Clear();
+
+                          checkIn.payLb.Visibility = Visibility.Hidden;
+                          checkIn.payUpDown.Visibility = Visibility.Hidden;
+                          checkIn.serviceComboBox.Visibility = Visibility.Hidden;
+                          checkIn.btnCompleteCheckIn.Visibility = Visibility.Hidden;
+
+                          checkIn.nameLb.Visibility = Visibility.Hidden;
+                          checkIn.clientsLb.Visibility = Visibility.Hidden;
+                          checkIn.roomLb.Visibility = Visibility.Hidden;
+                          checkIn.inWLb.Visibility = Visibility.Hidden;
+                          checkIn.inLb.Visibility = Visibility.Hidden; 
+                          checkIn.outWLb.Visibility = Visibility.Hidden;
+                          checkIn.outLb.Visibility = Visibility.Hidden; 
+                          checkIn.servicesLb.Visibility = Visibility.Hidden;
+                          checkIn.costLb.Visibility = Visibility.Hidden;
+                          checkIn.paymentLb.Visibility = Visibility.Hidden;
+
+                          MainWindow.stk.Children.Add(checkIn);
+                      }
+                      catch (Exception ex)
+                      {
+                          MessageBox.Show(ex.Message);
+                      }
+                  }));
+            }
+        }
+
+        reservation currReservation;
+        private RelayCommand toCheckInCommand;
+        public RelayCommand ToCheckInCommand      //продолжение заселения
+        {
+            get
+            {
+                return toCheckInCommand ??
+                  (toCheckInCommand = new RelayCommand(obj =>
+                  {
+                      try
+                      {
+                          currReservation = dbo.GetReservation(checkIn.fullNameTxb.Text, checkIn.birthDate.SelectedDate
+                              .Value, checkIn.inDate.SelectedDate.Value, checkIn.outDate.SelectedDate.Value);
+
+                          if (currReservation != null)
+                          {
+
+                              checkIn.payLb.Visibility = Visibility.Visible;
+                              checkIn.payUpDown.Visibility = Visibility.Visible;
+                              checkIn.serviceComboBox.Visibility = Visibility.Visible;
+                              checkIn.btnCompleteCheckIn.Visibility = Visibility.Visible;
+                              checkIn.btnToCheckIn.Visibility = Visibility.Hidden;
+
+                              checkIn.nameLb.Visibility = Visibility.Visible;
+                              checkIn.clientsLb.Visibility = Visibility.Visible;
+                              checkIn.roomLb.Visibility = Visibility.Visible;
+                              checkIn.inWLb.Visibility = Visibility.Visible;
+                              checkIn.inLb.Visibility = Visibility.Visible;
+                              checkIn.outWLb.Visibility = Visibility.Visible;
+                              checkIn.outLb.Visibility = Visibility.Visible;
+                              checkIn.servicesLb.Visibility = Visibility.Visible;
+                              checkIn.costLb.Visibility = Visibility.Visible;
+                              checkIn.paymentLb.Visibility = Visibility.Visible;
+
+                              checkIn.nameLb.Content += currReservation.client1.full_name;
+                              checkIn.clientsLb.Content += currReservation.amount_of_guests.ToString();
+                              checkIn.roomLb.Content += currReservation.room1.roomType.category + " №" + currReservation.room1
+                              .room_number + " " + currReservation.room1.price * (currReservation.check_out_date
+                              .Subtract(currReservation.check_in_date).Days) + "₽";
+                              checkIn.inLb.Content = currReservation.check_in_date.ToShortDateString();
+                              checkIn.outLb.Content = currReservation.check_out_date.ToShortDateString();
+                              checkIn.costLb.Content += currReservation.total_price + "₽";
+                              checkIn.paymentLb.Content += currReservation.total_price / 2 + "₽";
+
+                              currReservation.paid = (double)checkIn.payUpDown.Value;
+
+                              List<string> Services = new List<string>();
+
+                              foreach (service_string item in currReservation.service_string)
+                              {
+                                  Services.Add(item.service1.name);
+                              }
+
+                              Services = Services.Select(value => value + " - " + dbo.GetService(value).price + "₽").ToList();
+
+
+                              checkIn.serviceComboBox.ItemsSource = Services;
+                              checkIn.serviceComboBox.SelectedIndex = 0;
+                          }
+                          else
+                          {
+                              MessageBox.Show("Бронирование не найдено! Проверьте введённые данные!");
+                          }
+
+                      }
+                      catch (Exception ex)
+                      {
+                          MessageBox.Show(ex.Message);
+                      }
+                  }));
+            }
+        }
+
+        private RelayCommand сompleteCheckInCommand;
+        public RelayCommand CompleteCheckInCommand      //открыть страницу поиска и вывести список комнат
+        {
+            get
+            {
+                return сompleteCheckInCommand ??
+                  (сompleteCheckInCommand = new RelayCommand(obj =>
+                  {
+                      try
+                      {
+                          if (checkIn.payUpDown.Value >= (currReservation.total_price/2))
+                          {
+                              if (currReservation.check_in_date.Date == DateTime.Now.Date)
+                              {
+                                  currReservation.paid = (double)checkIn.payUpDown.Value;
+                                  currReservation.status = 2;
+                                  currReservation.status1 = dbo.GetStatus(2);
+                                  MessageBox.Show("Заселение прошло успешно!");
+                              }
+                              else
+                              {
+                                  MessageBox.Show("Дата заселения - " + currReservation.check_in_date + "! Измените дату!");
+                              }
+                          }
+                          else
+                          {
+                              MessageBox.Show("Недостаточная сумма первого взноса! Не хватает " +
+                                  ((currReservation.total_price / 2) - checkIn.payUpDown.Value) + "₽!");
+                          }
                       }
                       catch (Exception ex)
                       {

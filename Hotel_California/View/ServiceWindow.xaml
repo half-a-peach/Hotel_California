@@ -17,7 +17,7 @@
                         <Grid>
 
                             <Label Content="Услуга:" HorizontalAlignment="Left" Margin="30 10 0 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
-                            <ComboBox Name="serviceComboBox" Margin="30 0 0 200" Height="30" Width="160" HorizontalAlignment="Center" FontFamily="Tahoma" FontSize="16">
+                            <ComboBox Name="serviceComboBox" Margin="30 0 0 200" Height="30" Width="260" HorizontalAlignment="Center" FontFamily="Tahoma" FontSize="16">
                             </ComboBox>
 
                             <Label Content="Количество:" HorizontalAlignment="Left" Margin="30 100 0 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>

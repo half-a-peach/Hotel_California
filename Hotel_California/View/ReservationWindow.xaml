@@ -44,25 +44,27 @@
 
         <StackPanel Grid.Column="1" Background="#FFDEF9FF">
             <Grid x:Name= "bookstk">
-            <Label Content="ВВЕДИТЕ ДАННЫЕ" HorizontalAlignment="Center" Margin="0 40 0 0" FontFamily="Tahoma" FontSize="30" FontWeight="Medium" Foreground="#FF2F6E7D"/>
-            <StackPanel HorizontalAlignment="Center" Margin="0 120 0 0" >
-                <Border Visibility="Visible" BorderBrush="White" CornerRadius="20" BorderThickness="5" Height="330" Width="350">
+            <Label Content="ВВЕДИТЕ ДАННЫЕ" HorizontalAlignment="Center" Margin="0 30 0 0" FontFamily="Tahoma" FontSize="30" FontWeight="Medium" Foreground="#FF2F6E7D"/>
+            <StackPanel HorizontalAlignment="Center" Margin="0 100 0 0" >
+                <Border Visibility="Visible" BorderBrush="White" CornerRadius="20" BorderThickness="5" Height="380" Width="350">
                     <Grid>
 
                         <Label Content="ФИО:" HorizontalAlignment="Left" Margin="30 5 0 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
-                        <TextBox Name="fullNameTxb" Height="25" Width="250" HorizontalAlignment="Center" Margin="50 0 0 230" FontFamily="Tahoma" FontSize="16"/>
+                        <TextBox Name="fullNameTxb" Height="25" Width="250" HorizontalAlignment="Center" Margin="50 0 0 280" FontFamily="Tahoma" FontSize="16"/>
 
-                        <Label Content="Дата рождения:" HorizontalAlignment="Left" Margin="30 70 0 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
-                        <DatePicker Name="birthDate" Margin="120 0 0 110" Height="25" Width="130" SelectedDate="02/18/2001" FontFamily="Tahoma" FontSize="14"/>
+                        <Label Content="Дата рождения:" HorizontalAlignment="Left" Margin="30 60 0 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
+                        <DatePicker Name="birthDate" Margin="120 0 0 180" Height="25" Width="130" SelectedDate="02/18/2001" FontFamily="Tahoma" FontSize="14"/>
 
-                        <Label Content="Номер телефона:" HorizontalAlignment="Left" Margin="30 125 105 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
-                        <TextBox Name="phoneNumberTxb" Height="25" Width="230" HorizontalAlignment="Center" Margin="50 20 0 0" FontFamily="Tahoma" FontSize="16"/>
+                        <Label Content="Номер телефона:" HorizontalAlignment="Left" Margin="30 110 105 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
+                        <TextBox Name="phoneNumberTxb" Height="25" Width="230" HorizontalAlignment="Center" Margin="50 0 0 60" FontFamily="Tahoma" FontSize="16"/>
 
-                        <Label Content="Документ (паспорт):" HorizontalAlignment="Left" Margin="30 200 140 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
-                        <TextBox Name="passportTxb" Height="25" Width="300" HorizontalAlignment="Center" Margin="20 170 0 0" FontFamily="Tahoma" FontSize="16"/>
+                        <Label Content="Документ (паспорт):" HorizontalAlignment="Left" Margin="30 180 140 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
+                        <TextBox Name="passportTxb" Height="25" Width="300" HorizontalAlignment="Center" Margin="20 80 0 0" FontFamily="Tahoma" FontSize="16"/>
 
+                        <Label Content="Количество человек:" HorizontalAlignment="Left" Margin="30 250 140 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
+                        <xctk:IntegerUpDown Name="peopleAmountUpDown" Margin="140 210 0 0" Value="1" Width="100" Height="25" Minimum="1" FontSize="16" FontFamily="Tahoma"/>
 
-                        <Button BorderBrush="{x:Null}" Content="ЗАБРОНИРОВАТЬ"  Background="#FFBAEDF7" Foreground="White" Margin="0 260 0 0" x:Name="btnContReser" Command="{Binding ContinueReservationCommand}" Height="35" Width="200" FontFamily="Tahoma" FontWeight="Medium" FontSize="20"/>
+                        <Button BorderBrush="{x:Null}" Content="ЗАБРОНИРОВАТЬ"  Background="#FFBAEDF7" Foreground="White" Margin="0 300 0 0" x:Name="btnContReser" Command="{Binding ContinueReservationCommand}" Height="35" Width="200" FontFamily="Tahoma" FontWeight="Medium" FontSize="20"/>
 
                     </Grid>
                 </Border>

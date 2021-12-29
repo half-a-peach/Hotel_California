@@ -8,10 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Hotel_California.ViewModel;
 
 namespace Hotel_California.View
 {
@@ -20,9 +17,10 @@ namespace Hotel_California.View
     /// </summary>
     public partial class CheckInWindow : UserControl
     {
-        public CheckInWindow()
+        public CheckInWindow(ApplicationViewModel appViewModel)
         {
             InitializeComponent();
+            DataContext = appViewModel;
         }
     }
 }
