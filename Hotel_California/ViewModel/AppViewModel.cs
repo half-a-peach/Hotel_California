@@ -220,6 +220,7 @@ namespace Hotel_California.ViewModel
                           newReservation.total_price += newReservation.service_string.Last().cost;
                           serv.serviceAmountUpDown.Value = 1;
                           dbo.CreateServiceString(newReservation.service_string.Last());
+                          serv.serviceComboBox.SelectedIndex = 0;
                       }
                       catch (Exception ex)
                       {
@@ -503,6 +504,7 @@ namespace Hotel_California.ViewModel
                           checkIn.payUpDown.Visibility = Visibility.Hidden;
                           checkIn.serviceComboBox.Visibility = Visibility.Hidden;
                           checkIn.btnCompleteCheckIn.Visibility = Visibility.Hidden;
+                          checkIn.btnCompleteCheckOut.Visibility = Visibility.Hidden;
 
                           checkIn.nameLb.Visibility = Visibility.Hidden;
                           checkIn.clientsLb.Visibility = Visibility.Hidden;
@@ -541,11 +543,9 @@ namespace Hotel_California.ViewModel
 
                           if (currReservation != null)
                           {
-
                               checkIn.payLb.Visibility = Visibility.Visible;
                               checkIn.payUpDown.Visibility = Visibility.Visible;
                               checkIn.serviceComboBox.Visibility = Visibility.Visible;
-                              checkIn.btnCompleteCheckIn.Visibility = Visibility.Visible;
                               checkIn.btnToCheckIn.Visibility = Visibility.Hidden;
 
                               checkIn.nameLb.Visibility = Visibility.Visible;
@@ -567,9 +567,8 @@ namespace Hotel_California.ViewModel
                               checkIn.inLb.Content = currReservation.check_in_date.ToShortDateString();
                               checkIn.outLb.Content = currReservation.check_out_date.ToShortDateString();
                               checkIn.costLb.Content += currReservation.total_price + "₽";
-                              checkIn.paymentLb.Content += currReservation.total_price / 2 + "₽";
 
-                              currReservation.paid = (double)checkIn.payUpDown.Value;
+                              currReservation.paid += (double)checkIn.payUpDown.Value;
 
                               List<string> Services = new List<string>();
 
@@ -583,6 +582,17 @@ namespace Hotel_California.ViewModel
 
                               checkIn.serviceComboBox.ItemsSource = Services;
                               checkIn.serviceComboBox.SelectedIndex = 0;
+
+                              if (currReservation.status == 1)
+                              {
+                                  checkIn.btnCompleteCheckIn.Visibility = Visibility.Visible;
+                                  checkIn.paymentLb.Content += currReservation.total_price / 2 + "₽";
+                              }
+                              else if (currReservation.status == 2)
+                              {
+                                  checkIn.btnCompleteCheckOut.Visibility = Visibility.Visible;
+                                  checkIn.paymentLb.Content += (currReservation.total_price - currReservation.paid) + "₽";
+                              }
                           }
                           else
                           {
@@ -599,7 +609,7 @@ namespace Hotel_California.ViewModel
         }
 
         private RelayCommand сompleteCheckInCommand;
-        public RelayCommand CompleteCheckInCommand      //открыть страницу поиска и вывести список комнат
+        public RelayCommand CompleteCheckInCommand      //заселить
         {
             get
             {
@@ -608,7 +618,8 @@ namespace Hotel_California.ViewModel
                   {
                       try
                       {
-                          if (checkIn.payUpDown.Value >= (currReservation.total_price/2))
+                          if (checkIn.payUpDown.Value >= (currReservation.total_price/2) || currReservation.paid >= 
+                          (currReservation.total_price / 2))
                           {
                               if (currReservation.check_in_date.Date == DateTime.Now.Date)
                               {
@@ -616,6 +627,7 @@ namespace Hotel_California.ViewModel
                                   currReservation.status = 2;
                                   currReservation.status1 = dbo.GetStatus(2);
                                   MessageBox.Show("Заселение прошло успешно!");
+                                  MainWindow.stk.Children.Clear();
                               }
                               else
                               {
@@ -627,6 +639,47 @@ namespace Hotel_California.ViewModel
                               MessageBox.Show("Недостаточная сумма первого взноса! Не хватает " +
                                   ((currReservation.total_price / 2) - checkIn.payUpDown.Value) + "₽!");
                           }
+
+                      }
+                      catch (Exception ex)
+                      {
+                          MessageBox.Show(ex.Message);
+                      }
+                  }));
+            }
+        }
+
+        private RelayCommand сompleteCheckOutCommand;
+        public RelayCommand CompleteCheckOutCommand     //выселить
+        {
+            get
+            {
+                return сompleteCheckOutCommand ??
+                  (сompleteCheckOutCommand = new RelayCommand(obj =>
+                  {
+                      try
+                      {
+                          if ((checkIn.payUpDown.Value + currReservation.paid) == currReservation.total_price || currReservation.paid ==
+                          currReservation.total_price)
+                          {
+                              if (currReservation.check_out_date.Date == DateTime.Now.Date)
+                              {
+                                  currReservation.paid = (double)checkIn.payUpDown.Value;
+                                  currReservation.status = 3;
+                                  currReservation.status1 = dbo.GetStatus(3);
+                                  MessageBox.Show("Выселение прошло успешно!");
+                              }
+                              else
+                              {
+                                  MessageBox.Show("Дата выселения - " + currReservation.check_out_date + "! Измените дату!");
+                              }
+                          }
+                          else
+                          {
+                              MessageBox.Show("Недостаточная сумма оплаты! Не хватает " +
+                                  (currReservation.total_price - checkIn.payUpDown.Value) + "₽!");
+                          }
+
                       }
                       catch (Exception ex)
                       {

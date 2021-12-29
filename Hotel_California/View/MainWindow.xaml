@@ -13,6 +13,7 @@
 
         <Grid Grid.Row="0" Background="#FFBAEDF7">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.3*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -28,10 +29,14 @@
             </Grid>
 
             <Grid Grid.Column="2">
-                <Button BorderBrush="{x:Null}" Content="УСЛУГИ" Background="#FFBAEDF7" Foreground="White"  x:Name="btnServices" Command="{Binding IncomeCommand}" FontFamily="Tahoma" FontSize="18" FontWeight="Medium"/>
+                <Button BorderBrush="{x:Null}" Content="ВЫСЕЛИТЬ" Background="#FFBAEDF7" Foreground="White"  x:Name="btnCheckOut" Command="{Binding CheckInCommand}" FontFamily="Tahoma" FontSize="18" FontWeight="Medium"/>
             </Grid>
 
             <Grid Grid.Column="3">
+                <Button BorderBrush="{x:Null}" Content="УСЛУГИ" Background="#FFBAEDF7" Foreground="White"  x:Name="btnServices" Command="{Binding IncomeCommand}" FontFamily="Tahoma" FontSize="18" FontWeight="Medium"/>
+            </Grid>
+
+            <Grid Grid.Column="4">
                 <Button BorderBrush="{x:Null}" Content="ОТЧЁТ О ВЫРУЧКЕ" Background="#FFBAEDF7" Foreground="White"  x:Name="btnIncome" Command="{Binding IncomeCommand}" FontFamily="Tahoma" FontSize="18" FontWeight="Medium"/>
             </Grid>
 

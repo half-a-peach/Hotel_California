@@ -19,7 +19,7 @@
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="10*" />
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Content= "ПАРАМЕТРЫ БРОНИРОВАНИЯ" Margin="0 20 0 20" HorizontalAlignment= "Center" VerticalAlignment="Top" FontFamily= "Tahoma" FontSize= "25" FontWeight= "Medium" Foreground= "#FF2F6E7D" />
+                <Label Grid.Row="0" Name="headLb" Content= "ПАРАМЕТРЫ БРОНИРОВАНИЯ" Margin="0 20 0 20" HorizontalAlignment= "Center" VerticalAlignment="Top" FontFamily= "Tahoma" FontSize= "25" FontWeight= "Medium" Foreground= "#FF2F6E7D" />
                 <Grid Grid.Row="1">
                     <StackPanel>
                         <Border Visibility="Visible" Background="#FFBAEDF7" BorderBrush="#FFBAEDF7" CornerRadius="20" Height="380" Width="490">
@@ -64,12 +64,13 @@
                         <DatePicker Name="inDate" Margin="0 20 145 0" Height="25" Width="110" SelectedDate="12/25/2021" FontFamily="Tahoma" FontSize="14"/>
                         <DatePicker Name="outDate" Margin="185 20 0 0" Height="25" Width="110" SelectedDate="01/10/2022" FontFamily="Tahoma" FontSize="14"/>
 
-                            <Label Content="Оплачено:" Name="payLb" HorizontalAlignment="Left" Margin="30 200 140 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
+                            <Label Content="Внесённая сумма:" Name="payLb" HorizontalAlignment="Left" Margin="30 200 140 0" FontFamily="Tahoma" FontSize="15" Foreground="#FF2F6E7D"></Label>
                             <xctk:IntegerUpDown Name="payUpDown" Margin="90 160 0 0" Value="0" Width="150" Height="25" Minimum="0" FontSize="16" FontFamily="Tahoma"/>
 
 
                             <Button BorderBrush="{x:Null}" Content="НАЙТИ"  Background="#FFBAEDF7" Foreground="White" Margin="0 260 0 0" x:Name="btnToCheckIn" Command="{Binding ToCheckInCommand}" Height="35" Width="180" FontFamily="Tahoma" FontWeight="Medium" FontSize="20"/>
                             <Button BorderBrush="{x:Null}" Content="ЗАСЕЛИТЬ"  Background="#FFBAEDF7" Foreground="White" Margin="0 260 0 0" x:Name="btnCompleteCheckIn" Command="{Binding CompleteCheckInCommand}" Height="35" Width="180" FontFamily="Tahoma" FontWeight="Medium" FontSize="20"/>
+                            <Button BorderBrush="{x:Null}" Content="ВЫСЕЛИТЬ"  Background="#FFBAEDF7" Foreground="White" Margin="0 260 0 0" x:Name="btnCompleteCheckOut" Command="{Binding CompleteCheckOutCommand}" Height="35" Width="180" FontFamily="Tahoma" FontWeight="Medium" FontSize="20"/>
 
                         </Grid>
                     </Border>
